@@ -1,11 +1,17 @@
 import cors from "cors";
-import express from "express";
-import routes from "./app/routes";
+import express, { Application, Request, Response } from "express";
+import routes from "./app/routes/index";
 
-const app = express();
+const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(routes);
+
+// application route
+app.use("/api", routes);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Library Management Server is running!");
+});
 
 export default app;

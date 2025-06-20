@@ -1,7 +1,18 @@
-import express from "express";
-import bookRoutes from "./modules/book/book.route";
+// import express from "express";
+// import {
+//   createBook,
+//   deleteBook,
+//   getBookById,
+//   getBooks,
+//   updateBook,
+// } from "./modules/book/book.controller";
 
-const router = express.Router();
-router.use("/api", bookRoutes);
+// const router = express.Router();
 
-export default router;
+// router.post("/api/books", createBook);
+// router.get("/api/books", getBooks);
+// router.get("/api/books/:id", getBookById);
+// router.put("/api/books/:id", updateBook);
+// router.delete("/api/books/:id", deleteBook);
+
+// export default router;

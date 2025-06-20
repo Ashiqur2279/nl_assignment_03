@@ -1,29 +1,27 @@
 import dotenv from "dotenv";
-import express from "express";
 import mongoose from "mongoose";
+import path from "path";
+import app from "./app";
 
-dotenv.config();
+dotenv.config({ path: path.join(process.cwd(), ".env") });
 
-const app = express();
 const port = process.env.PORT || 5000;
+const database_url = process.env.DATABASE_URL;
 
-//middleware to parse JSON bodies
-app.use(express.json());
+async function main() {
+  try {
+    if (!database_url) {
+      throw new Error("DATABASE_URL is not defined!");
+    }
+    await mongoose.connect(database_url);
+    console.log("✅ MongoDB connected");
 
-//mongodb connect
-mongoose
-  .connect(process.env.DATABASE_URL || "", {})
-  .then(() => console.log("mongodb connected"))
-  .catch((err) => console.error("MongoDB connection error: ", err));
+    app.listen(port, () => {
+      console.log(`📚 Server running on http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("❌ MongoDB connection error: ", err);
+  }
+}
 
-app.get("/", (req, res) => {
-  res.send("server is running");
-});
-
-app.post("/api/books", (req, res) => {
-  res.json({ message: "Book received", data: req.body });
-});
-
-app.listen(port, () => {
-  console.log(`server running on http://localhost:${port}`);
-});
+main();
